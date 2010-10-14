@@ -1,0 +1,8 @@
+A small Ruby script to download the podcasts of 'A History of the World in 100 Objects'.
+
+It does this by connecting to the RSS feed provided by the BBC and extracting the links to the mp3 files from it.
+
+wget is used to download the files to the current directory.
+
+The command line tool id3v2 is used to strip away all tags before re-tagging a select few.
+
