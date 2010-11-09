@@ -15,7 +15,7 @@
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 =end
- 
+
 require 'rss/2.0'
 require 'open-uri'
 
@@ -33,9 +33,9 @@ open(source) do |s| content = s.read end
 rss = RSS::Parser.parse(content, false)
 rss.items.reverse[1..100].each do |item|
   track, title = /AHOW: (\d{3})\s(\D*)/.match(item.title).to_a[-2, 2]
-	system("wget #{item.link}")
+  system("wget #{item.link}")
 
-	filename = item.link.gsub("http://downloads.bbc.co.uk/podcasts/radio4/ahow/","")
+  filename = item.link.gsub("http://downloads.bbc.co.uk/podcasts/radio4/ahow/","")
 
   id3v2_params = []
   id3v2_params << %Q!--track "#{track}"!
@@ -45,6 +45,6 @@ rss.items.reverse[1..100].each do |item|
   id3v2_params << %Q!--year "2010"!
   id3v2_params << %Q!--genre "101"!
 
-	delete_all_tags(filename)
-	id3v2(id3v2_params, filename)
+  delete_all_tags(filename)
+  id3v2(id3v2_params, filename)
 end
