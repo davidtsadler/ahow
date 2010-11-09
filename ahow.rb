@@ -31,13 +31,15 @@ source = "http://downloads.bbc.co.uk/podcasts/radio4/ahow/rss.xml"
 content = ""
 open(source) do |s| content = s.read end
 rss = RSS::Parser.parse(content, false)
-rss.items.each do |item|
+rss.items.reverse[1..100].each do |item|
+  track, title = /AHOW: (\d{3})\s(\D*)/.match(item.title).to_a[-2, 2]
 	system("wget #{item.link}")
 
 	filename = item.link.gsub("http://downloads.bbc.co.uk/podcasts/radio4/ahow/","")
 
   id3v2_params = []
-  id3v2_params << %Q!--song "#{item.title}"!
+  id3v2_params << %Q!--track "#{track}"!
+  id3v2_params << %Q!--song "#{title}"!
   id3v2_params << %Q!--artist "Neil MacGregor"!
   id3v2_params << %Q!--album "A History of the World in 100 Objects"! 
   id3v2_params << %Q!--year "2010"!
